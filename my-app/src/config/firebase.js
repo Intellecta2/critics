@@ -18,7 +18,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAcDbncFNicF_QnxyPTHt_sXnsxqJD5thE',
+  apiKey: 'AIzaSyAcDbncFNicF_QnxyPTht_sXnsxqJD5thE',
   authDomain: 'critics-da3a0.firebaseapp.com',
   projectId: 'critics-da3a0',
   storageBucket: 'critics-da3a0.firebasestorage.app',
