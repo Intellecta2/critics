@@ -46,7 +46,8 @@ const LoginPage = () => {
       await signInWithEmailAndPassword(auth, email, password);
       // onAuthStateChanged in App.jsx will pick up the auth state change
     } catch (err) {
-      setError(getFirebaseErrorMessage(err.code));
+      console.error('Sign In Error:', err);
+      setError(getFirebaseErrorMessage(err.code, err.message));
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +63,8 @@ const LoginPage = () => {
       await createUserWithEmailAndPassword(auth, email, password);
       // onAuthStateChanged in App.jsx will pick up the auth state change
     } catch (err) {
-      setError(getFirebaseErrorMessage(err.code));
+      console.error('Sign Up Error:', err);
+      setError(getFirebaseErrorMessage(err.code, err.message));
     } finally {
       setIsLoading(false);
     }
@@ -77,9 +79,10 @@ const LoginPage = () => {
       await signInWithPopup(auth, googleProvider);
       // onAuthStateChanged in App.jsx will pick up the auth state change
     } catch (err) {
+      console.error('Google Sign In Error:', err);
       // Ignore popup-closed-by-user errors
-      if (err.code !== 'auth/popup-closed-by-user') {
-        setError(getFirebaseErrorMessage(err.code));
+      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        setError(getFirebaseErrorMessage(err.code, err.message));
       }
     } finally {
       setIsLoading(false);
@@ -87,7 +90,11 @@ const LoginPage = () => {
   };
 
   // Map Firebase error codes to user-friendly messages
-  const getFirebaseErrorMessage = (code) => {
+  const getFirebaseErrorMessage = (code, message) => {
+    if (code?.includes('api-key-not-valid')) {
+      return 'Invalid Firebase API Key. Please update your config in src/config/firebase.js';
+    }
+    
     const messages = {
       'auth/invalid-email': 'Please enter a valid email address.',
       'auth/user-disabled': 'This account has been disabled.',
@@ -98,7 +105,7 @@ const LoginPage = () => {
       'auth/invalid-credential': 'Invalid email or password.',
       'auth/too-many-requests': 'Too many attempts. Please try again later.',
     };
-    return messages[code] || 'An unexpected error occurred. Please try again.';
+    return messages[code] || `Error: ${message || code || 'An unexpected error occurred'}`;
   };
 
   const handleSubmit = activeTab === 'signin' ? handleEmailSignIn : handleEmailSignUp;
