@@ -246,11 +246,13 @@ const App = () => {
 
   // Video is playing — show fullscreen video player
   // This takes over the entire UI when isPlaying is true
-  // and selectedContent has a valid hls_stream_url.
-  if (isPlaying && selectedContent?.hls_stream_url) {
+  // and selectedContent has a valid stream URL.
+  const streamUrl = selectedContent?.youtube_url || selectedContent?.hls_stream_url;
+  
+  if (isPlaying && streamUrl) {
     return (
       <VideoPlayer
-        streamUrl={selectedContent.hls_stream_url}
+        streamUrl={streamUrl}
         onEnd={handleStopPlaying}
       />
     );

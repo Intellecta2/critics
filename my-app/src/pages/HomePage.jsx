@@ -33,7 +33,8 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
         <div
           className="hero"
           style={{
-            backgroundImage: `url(https://placehold.co/1920x900/223F6E/FFFFFF?text=${encodeURIComponent(featuredContent.title)})`,
+            backgroundImage: `url(${featuredContent.poster_url})`,
+            backgroundPosition: 'top center'
           }}
         >
           <div className="hero__gradient" />

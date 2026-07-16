@@ -39,9 +39,9 @@ const VideoPlayer = ({ streamUrl, onEnd }) => {
           config={{
             file: {
               // forceHLS tells react-player to use hls.js for .m3u8 streams.
-              // This is required for HLS playback in browsers that don't
-              // natively support HLS (i.e., everything except Safari).
-              forceHLS: true,
+              // We only set this to true if the URL actually ends in .m3u8
+              // so YouTube links can still play natively.
+              forceHLS: streamUrl?.includes('.m3u8') || false,
               attributes: {
                 // Poster image while the stream is buffering
                 style: { backgroundColor: '#000' },

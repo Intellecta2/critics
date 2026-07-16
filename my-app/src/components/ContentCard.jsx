@@ -30,7 +30,7 @@ const ContentCard = ({ content, onClick, isAdded }) => {
       <div
         className="content-card__poster"
         style={{
-          backgroundImage: `url(https://placehold.co/300x450/111827/FFFFFF?text=${encodeURIComponent(content.title)})`,
+          backgroundImage: `url(${content.poster_url || 'https://placehold.co/300x450/111827/FFFFFF?text=No+Poster'})`,
         }}
       />
 

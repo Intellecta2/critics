@@ -981,8 +981,23 @@ async function seed() {
     await Content.deleteMany({});
     console.log('🗑️  Cleared existing content collection');
 
+    // Pre-process seed data for Amazon Prime Video UI upgrade
+    const processedSeedData = seedData.map((item) => {
+      // 1. Convert small thumbnails to HD posters by replacing the resizing parameters
+      const hdPoster = item.poster_url.replace(/\._V1_.*$/, '._V1_FMjpg_UX1000_.jpg');
+      
+      // 2. Add a YouTube trailer link (Using official Dune 4K trailer as a generic high-quality placeholder)
+      const youtubeTrailer = 'https://www.youtube.com/watch?v=n9xhKvBWxl4';
+
+      return {
+        ...item,
+        poster_url: hdPoster,
+        youtube_url: youtubeTrailer
+      };
+    });
+
     // Insert seed data
-    const inserted = await Content.insertMany(seedData);
+    const inserted = await Content.insertMany(processedSeedData);
     console.log(`🌱 Seeded ${inserted.length} content documents:`);
     inserted.forEach((item) => {
       console.log(`   • ${item.title} (${item._id}) — IMDB: ${item.imdb_rating}`);

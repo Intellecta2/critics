@@ -45,6 +45,10 @@ const contentSchema = new mongoose.Schema(
       type: String,
       required: [true, 'HLS stream URL is required'],
     },
+    youtube_url: {
+      type: String,
+      default: '',
+    },
     critics_picks: {
       type: Boolean,
       default: false,
