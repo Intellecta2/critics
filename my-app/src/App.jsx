@@ -50,7 +50,7 @@ import LoginPage from './pages/LoginPage';
  * Points to the Express backend running on port 3001.
  * In production, this would be your deployed API domain.
  */
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/content';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/content';
 
 const App = () => {
   // ─── Content State ─────────────────────────────────────────────
