@@ -6,13 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    // Optionally proxy API requests to avoid CORS in development.
-    // Uncomment if you prefer proxying over the explicit CORS setup in Express.
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://localhost:3001',
-    //     changeOrigin: true,
-    //   },
-    // },
+    allowedHosts: ['.ngrok-free.app'],
   },
 });
