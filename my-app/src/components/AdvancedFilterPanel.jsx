@@ -20,7 +20,7 @@ const AdvancedFilterPanel = ({ filters, setFilters, onClose, onApply }) => {
   const filterOptions = {
     score: [90, 85, 80],
     type: ['Movie', 'Series', 'Documentary'],
-    year: [2024, 2023, 2022],
+    year: [2020, 2010, 2000],
   };
 
   const handleScoreChange = (score) => {
@@ -112,7 +112,7 @@ const AdvancedFilterPanel = ({ filters, setFilters, onClose, onApply }) => {
                 filters.year === year ? 'filter-chip--active' : 'filter-chip--inactive'
               }`}
             >
-              {year}
+              {year}+
             </button>
           ))}
         </div>
