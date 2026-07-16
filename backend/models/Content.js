@@ -54,8 +54,16 @@ const contentSchema = new mongoose.Schema(
       default: false,
     },
 
-    // --- IMDB fields ---
+    // --- IMDB / TMDB fields ---
     poster_url: {
+      type: String,
+      default: '',
+    },
+    backdrop_url: {
+      type: String,
+      default: '',
+    },
+    trailer_youtube_id: {
       type: String,
       default: '',
     },

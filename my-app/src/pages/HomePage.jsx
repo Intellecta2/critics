@@ -33,7 +33,7 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
         <div
           className="hero"
           style={{
-            backgroundImage: `url(${featuredContent.poster_url})`,
+            backgroundImage: `url(${featuredContent.backdrop_url || featuredContent.poster_url})`,
             backgroundPosition: 'top center'
           }}
         >
@@ -77,18 +77,22 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
           onCardClick={onCardClick}
           watchlist={watchlist}
         />
-        <ContentRow
-          title="Recommended for You"
-          content={recommended}
-          onCardClick={onCardClick}
-          watchlist={watchlist}
-        />
-        <ContentRow
-          title="All Titles"
-          content={allContent}
-          onCardClick={onCardClick}
-          watchlist={watchlist}
-        />
+        
+        {/* Dynamic Genre Rows */}
+        {['Action', 'Sci-Fi', 'Drama', 'Comedy', 'Thriller', 'Animation'].map(genre => {
+          const genreMovies = allContent.filter(c => c.genre?.includes(genre));
+          if (genreMovies.length === 0) return null;
+          
+          return (
+            <ContentRow
+              key={genre}
+              title={`${genre} Movies`}
+              content={genreMovies}
+              onCardClick={onCardClick}
+              watchlist={watchlist}
+            />
+          );
+        })}
       </div>
     </main>
   );

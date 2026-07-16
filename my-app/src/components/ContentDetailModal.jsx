@@ -89,7 +89,7 @@ const ContentDetailModal = ({
         <div
           className="modal__header"
           style={{
-            backgroundImage: `url(https://placehold.co/1200x500/1E3A8A/FFFFFF?text=${encodeURIComponent(content.title)})`,
+            backgroundImage: `url(${content.backdrop_url || content.poster_url})`,
           }}
         >
           <div className="modal__header-gradient" />
@@ -125,7 +125,16 @@ const ContentDetailModal = ({
         <div className="modal__body">
           {/* Left column — Synopsis, consensus, episodes */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
-            <CriticsMeter score={content.critics_score} userScore={content.user_score} />
+            <div style={{ display: 'flex', gap: 'var(--space-6)', flexWrap: 'wrap', marginBottom: 'var(--space-2)' }}>
+              <CriticsMeter score={content.critics_score} userScore={content.user_score} />
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <span style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'bold', color: '#f5c518' }}>
+                  <Star style={{ width: 24, height: 24, fill: '#f5c518', marginRight: '4px' }} />
+                  {content.imdb_rating} <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>/ 10</span>
+                </span>
+                <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{content.no_of_votes?.toLocaleString()} Votes</span>
+              </div>
+            </div>
 
             <p className="modal__synopsis">{content.synopsis}</p>
 
@@ -134,8 +143,18 @@ const ContentDetailModal = ({
                 <strong>Director:</strong>{' '}
                 <span className="modal__detail-label">{content.director}</span>
               </p>
-              <p>
-                <strong>Starring:</strong> {content.cast?.join(', ')}
+              <p style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                <strong>Cast:</strong>
+                {content.cast?.map((actor, idx) => (
+                  <span key={idx} style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    padding: '4px 12px',
+                    borderRadius: '16px',
+                    fontSize: '14px'
+                  }}>
+                    {actor}
+                  </span>
+                ))}
               </p>
               <p>
                 <strong>Genre:</strong>{' '}
