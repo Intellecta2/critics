@@ -15,7 +15,7 @@ import React, { useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import ContentCard from './ContentCard';
 
-const ContentRow = ({ title, content, onCardClick, watchlist }) => {
+const ContentRow = ({ title, content, onCardClick, watchlist, onToggleWatchlist, onPlayDirect }) => {
   const scrollRef = useRef(null);
 
   const scroll = (direction) => {
@@ -56,6 +56,8 @@ const ContentRow = ({ title, content, onCardClick, watchlist }) => {
               content={item}
               onClick={onCardClick}
               isAdded={watchlist.includes(item._id)}
+              onToggleWatchlist={onToggleWatchlist}
+              onPlayDirect={onPlayDirect}
             />
           </div>
         ))}

@@ -15,7 +15,7 @@ import React from 'react';
 import { Bookmark } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 
-const MyListPage = ({ onCardClick, watchlist, allContent, userId }) => {
+const MyListPage = ({ onCardClick, watchlist, allContent, userId, onToggleWatchlist, onPlayDirect }) => {
   // Map watchlist IDs to full content objects
   const watchlistContent = watchlist
     .map((id) => allContent.find((c) => c._id === id))
@@ -42,6 +42,8 @@ const MyListPage = ({ onCardClick, watchlist, allContent, userId }) => {
               content={item}
               onClick={onCardClick}
               isAdded={true}
+              onToggleWatchlist={onToggleWatchlist}
+              onPlayDirect={onPlayDirect}
             />
           ))}
         </div>

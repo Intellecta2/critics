@@ -18,7 +18,7 @@ import { Play, Info, Clapperboard } from 'lucide-react';
 import CriticsMeter from '../components/CriticsMeter';
 import ContentRow from '../components/ContentRow';
 
-const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
+const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist, onToggleWatchlist, onPlayDirect }) => {
   // Featured hero: first trending item from critics picks
   const featuredContent = criticsPicks.find((c) => c.trending) || criticsPicks[0];
 
@@ -49,7 +49,7 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
             />
 
             <div className="hero__actions">
-              <button className="btn btn--primary" onClick={() => onCardClick(featuredContent._id)}>
+              <button className="btn btn--primary" onClick={() => onPlayDirect(featuredContent)}>
                 <Play style={{ width: 24, height: 24, fill: '#000' }} /> Play Now
               </button>
               <button
@@ -70,12 +70,16 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
           content={criticsPicks}
           onCardClick={onCardClick}
           watchlist={watchlist}
+          onToggleWatchlist={onToggleWatchlist}
+          onPlayDirect={onPlayDirect}
         />
         <ContentRow
           title="Trending Now"
           content={trending}
           onCardClick={onCardClick}
           watchlist={watchlist}
+          onToggleWatchlist={onToggleWatchlist}
+          onPlayDirect={onPlayDirect}
         />
         
         {/* Dynamic Genre Rows */}
@@ -90,6 +94,8 @@ const HomePage = ({ allContent, criticsPicks, onCardClick, watchlist }) => {
               content={genreMovies}
               onCardClick={onCardClick}
               watchlist={watchlist}
+              onToggleWatchlist={onToggleWatchlist}
+              onPlayDirect={onPlayDirect}
             />
           );
         })}

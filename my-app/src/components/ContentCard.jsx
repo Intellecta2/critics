@@ -11,10 +11,10 @@
  */
 
 import React from 'react';
-import { Play, Star, Bookmark } from 'lucide-react';
+import { Play, Star, Bookmark, Plus } from 'lucide-react';
 import { getScoreColorClass } from './CriticsMeter';
 
-const ContentCard = ({ content, onClick, isAdded }) => {
+const ContentCard = ({ content, onClick, isAdded, onToggleWatchlist, onPlayDirect }) => {
   const scoreClass = getScoreColorClass(content.critics_score);
 
   return (
@@ -48,9 +48,28 @@ const ContentCard = ({ content, onClick, isAdded }) => {
             </span>
             <span className="content-card__year">{content.year}</span>
           </div>
-          <button className="content-card__play-btn">
-            <Play style={{ width: 16, height: 16 }} /> Play
-          </button>
+          <div className="content-card__actions" style={{ display: 'flex', gap: 'var(--space-2)', width: '100%' }}>
+            <button 
+              className="content-card__play-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onPlayDirect) onPlayDirect(content);
+              }}
+              style={{ flexGrow: 1 }}
+            >
+              <Play style={{ width: 16, height: 16, fill: 'currentColor' }} /> Play
+            </button>
+            <button 
+              className={`content-card__watchlist-btn ${isAdded ? 'content-card__watchlist-btn--added' : 'content-card__watchlist-btn--add'}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onToggleWatchlist) onToggleWatchlist(content._id);
+              }}
+              aria-label={isAdded ? "Remove from watchlist" : "Add to watchlist"}
+            >
+              {isAdded ? <Bookmark style={{ width: 16, height: 16, fill: 'currentColor' }} /> : <Plus style={{ width: 16, height: 16 }} />}
+            </button>
+          </div>
         </div>
       </div>
     </div>

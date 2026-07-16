@@ -183,18 +183,25 @@ const App = () => {
     setIsPlaying(true);
   };
 
+  const handlePlayDirect = (content) => {
+    setSelectedContent(content);
+    setIsPlaying(true);
+  };
+
   const handleStopPlaying = () => {
     setIsPlaying(false);
   };
 
-  const handleToggleWatchlist = async () => {
-    if (!user || !selectedContent) return;
+  const handleToggleWatchlist = async (id) => {
+    if (!user) return;
 
-    const contentId = selectedContent._id;
+    const contentId = typeof id === 'string' ? id : selectedContent?._id;
+    if (!contentId) return;
+
     let newWatchlist;
 
     if (watchlist.includes(contentId)) {
-      newWatchlist = watchlist.filter((id) => id !== contentId);
+      newWatchlist = watchlist.filter((itemId) => itemId !== contentId);
     } else {
       newWatchlist = [...watchlist, contentId];
     }
@@ -275,6 +282,8 @@ const App = () => {
             watchlist={watchlist}
             allContent={allContent}
             userId={user.uid}
+            onToggleWatchlist={handleToggleWatchlist}
+            onPlayDirect={handlePlayDirect}
           />
         );
       case 'search':
@@ -283,6 +292,8 @@ const App = () => {
             onCardClick={handleCardClick}
             watchlist={watchlist}
             allContent={allContent}
+            onToggleWatchlist={handleToggleWatchlist}
+            onPlayDirect={handlePlayDirect}
           />
         );
       case 'profile':
@@ -300,6 +311,8 @@ const App = () => {
             criticsPicks={criticsPicks}
             onCardClick={handleCardClick}
             watchlist={watchlist}
+            onToggleWatchlist={handleToggleWatchlist}
+            onPlayDirect={handlePlayDirect}
           />
         );
     }

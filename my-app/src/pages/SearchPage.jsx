@@ -19,7 +19,7 @@ import { Search, Filter, X } from 'lucide-react';
 import ContentCard from '../components/ContentCard';
 import AdvancedFilterPanel from '../components/AdvancedFilterPanel';
 
-const SearchPage = ({ onCardClick, watchlist, allContent }) => {
+const SearchPage = ({ onCardClick, watchlist, allContent, onToggleWatchlist, onPlayDirect }) => {
   const [query, setQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
@@ -105,46 +105,20 @@ const SearchPage = ({ onCardClick, watchlist, allContent }) => {
         </div>
       )}
 
-      {/* No results */}
-      {query.length > 0 && filteredContent.length === 0 && (
-        <div className="empty-state">
-          <Search className="empty-state__icon" />
-          <p className="empty-state__title">No results match your search and filters.</p>
-          <p className="empty-state__subtitle">
-            Try clearing a filter or simplifying your query.
-          </p>
-        </div>
-      )}
-
-      {/* Search results */}
-      {query.length > 0 && filteredContent.length > 0 && (
-        <>
-          <h2 className="search-results-title">Results ({filteredContent.length})</h2>
-          <div className="content-grid">
-            {filteredContent.map((item) => (
-              <ContentCard
-                key={item._id}
-                content={item}
-                onClick={onCardClick}
-                isAdded={watchlist.includes(item._id)}
-              />
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* Popular searches (shown when query is empty and no filters open) */}
-      {query.length === 0 && !isFilterOpen && (
-        <div>
-          <h2 className="popular-searches__title">Popular Searches</h2>
+      {/* Popular searches (shown when query is empty) */}
+      {query.length === 0 && (
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <h2 className="popular-searches__title" style={{ fontSize: 'var(--font-size-xl)', marginBottom: 'var(--space-3)' }}>
+            Popular Searches
+          </h2>
           <div className="popular-searches__tags">
             {[
-              'Sci-Fi Thriller',
-              'Fantasy Epic',
-              'Neo-Noir',
-              'Political Drama',
-              'Documentary',
+              'Sci-Fi',
               'Action',
+              'Drama',
+              'Crime',
+              'Adventure',
+              'Animation',
             ].map((term) => (
               <button
                 key={term}
@@ -156,6 +130,38 @@ const SearchPage = ({ onCardClick, watchlist, allContent }) => {
             ))}
           </div>
         </div>
+      )}
+
+      {/* No results */}
+      {filteredContent.length === 0 && (
+        <div className="empty-state">
+          <Search className="empty-state__icon" />
+          <p className="empty-state__title">No results match your search and filters.</p>
+          <p className="empty-state__subtitle">
+            Try clearing a filter or simplifying your query.
+          </p>
+        </div>
+      )}
+
+      {/* Search results */}
+      {filteredContent.length > 0 && (
+        <>
+          <h2 className="search-results-title">
+            {query || hasActiveFilters ? `Search Results (${filteredContent.length})` : `All Movies & Series (${filteredContent.length})`}
+          </h2>
+          <div className="content-grid">
+            {filteredContent.map((item) => (
+              <ContentCard
+                key={item._id}
+                content={item}
+                onClick={onCardClick}
+                isAdded={watchlist.includes(item._id)}
+                onToggleWatchlist={onToggleWatchlist}
+                onPlayDirect={onPlayDirect}
+              />
+            ))}
+          </div>
+        </>
       )}
     </main>
   );
