@@ -20,7 +20,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Play, Plus, Bookmark, X, Star, ChevronRight } from 'lucide-react';
+import { Play, Plus, Bookmark, X, Star, ChevronRight, Youtube } from 'lucide-react';
 import CriticsMeter, { getScoreColorClass } from './CriticsMeter';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -62,6 +62,7 @@ const ContentDetailModal = ({
   isAddedToWatchlist,
   onToggleWatchlist,
   onPlay,
+  onPlayTrailer,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -109,6 +110,9 @@ const ContentDetailModal = ({
             <div className="modal__actions">
               <button className="btn btn--primary" onClick={onPlay}>
                 <Play style={{ width: 24, height: 24, fill: '#000' }} /> Play Now
+              </button>
+              <button className="btn btn--secondary" onClick={onPlayTrailer} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255, 255, 255, 0.2)', border: 'none', color: '#fff', padding: '0 24px', borderRadius: '4px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }}>
+                <Youtube style={{ width: 24, height: 24, color: '#ff0000' }} /> Watch Trailer
               </button>
               <button
                 className={`btn btn--watchlist ${isAddedToWatchlist ? 'btn--watchlist-remove' : 'btn--watchlist-add'}`}

@@ -58,6 +58,7 @@ const App = () => {
   const [criticsPicks, setCriticsPicks] = useState([]);    // Filtered critics_picks === true
   const [selectedContent, setSelectedContent] = useState(null); // Current detail view
   const [isPlaying, setIsPlaying] = useState(false);       // Video player visibility
+  const [isPlayingTrailer, setIsPlayingTrailer] = useState(false); // Trailer visibility
 
   // ─── Navigation State ──────────────────────────────────────────
   const [page, setPage] = useState('home'); // 'home', 'mylist', 'search', 'profile'
@@ -183,6 +184,10 @@ const App = () => {
     setIsPlaying(true);
   };
 
+  const handlePlayTrailer = () => {
+    setIsPlayingTrailer(true);
+  };
+
   const handlePlayDirect = (content) => {
     setSelectedContent(content);
     setIsPlaying(true);
@@ -190,6 +195,10 @@ const App = () => {
 
   const handleStopPlaying = () => {
     setIsPlaying(false);
+  };
+
+  const handleStopPlayingTrailer = () => {
+    setIsPlayingTrailer(false);
   };
 
   const handleToggleWatchlist = async (id) => {
@@ -254,13 +263,24 @@ const App = () => {
   // Video is playing — show fullscreen video player
   // This takes over the entire UI when isPlaying is true
   // and selectedContent has a valid stream URL.
-  const streamUrl = selectedContent?.youtube_url || selectedContent?.hls_stream_url;
+  const mainStreamUrl = selectedContent?.hls_stream_url;
   
-  if (isPlaying && streamUrl) {
+  if (isPlaying && mainStreamUrl) {
     return (
       <VideoPlayer
-        streamUrl={streamUrl}
+        streamUrl={mainStreamUrl}
         onEnd={handleStopPlaying}
+      />
+    );
+  }
+
+  const trailerUrl = selectedContent?.youtube_url || (selectedContent?.trailer_youtube_id ? `https://www.youtube.com/watch?v=${selectedContent.trailer_youtube_id}` : null);
+  
+  if (isPlayingTrailer && trailerUrl) {
+    return (
+      <VideoPlayer
+        streamUrl={trailerUrl}
+        onEnd={handleStopPlayingTrailer}
       />
     );
   }
@@ -332,6 +352,7 @@ const App = () => {
           isAddedToWatchlist={watchlist.includes(selectedContent._id)}
           onToggleWatchlist={handleToggleWatchlist}
           onPlay={handlePlay}
+          onPlayTrailer={handlePlayTrailer}
         />
       )}
 
